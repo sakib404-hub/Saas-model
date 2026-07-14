@@ -1,6 +1,7 @@
+import { UserStatus } from "../../../prisma/generated/prisma/enums";
 import { config } from "../../config/config";
 import { prisma } from "../../lib/prisma";
-import type { IRegisterPayLoad } from "./auth.interface";
+import type { ILoginPayLoad, IRegisterPayLoad } from "./auth.interface";
 import bcrypt from "bcrypt"
 import validator from "validator"
 
@@ -36,8 +37,31 @@ const registerUser = async (payLoad: IRegisterPayLoad) => {
 
 };
 
-const loginUser = () => {
+const loginUser = async(payLoad : ILoginPayLoad) => {
+    const {email , password} = payLoad;
 
+    const user = await prisma.user.findUnique({
+        where : {
+            email : email
+        }
+    });
+
+    if(!user){
+        throw new Error("No user found with this email.");
+    }
+
+    const isPasswordMatched = await bcrypt.compare(password, user.password);
+
+    if(!isPasswordMatched){
+        throw new Error("Invalid Password.");
+    }
+
+    if(user.status === UserStatus.BLOCKED){
+        throw new Error("Your Account Has been bloacked, contact Support.")
+    }
+    if(user.status === UserStatus.SUSPENDED){
+        throw new Error("Your Account Has been suspended for violating terms and condition.")
+    }
 }
 
 export const authServices = {

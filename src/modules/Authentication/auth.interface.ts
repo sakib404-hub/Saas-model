@@ -6,3 +6,8 @@ export interface IRegisterPayLoad {
     password : string;
     role ? : UserRole
 }
+
+export interface ILoginPayLoad{
+    email : string;
+    password : string;
+}
