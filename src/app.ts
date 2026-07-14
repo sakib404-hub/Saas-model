@@ -6,12 +6,16 @@ import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { authRouter } from "./modules/Authentication/auth.route";
 import cors from "cors"
 import cookieParser from "cookie-parser";
+import { config } from "./config/config";
 
 const app: Application = express();
 
 
 //? adding the necessary middle ware
-app.use(cors());
+app.use(cors({
+     origin : config.backend_origin_url,
+     credentials : true
+}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({
