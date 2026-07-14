@@ -38,8 +38,6 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-
-
 //? if no route mathces
 app.use(notFound);
 
