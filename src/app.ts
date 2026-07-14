@@ -3,6 +3,7 @@ import express from "express"
 import status from "http-status";
 import notFound from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
+import { authRouter } from "./modules/Authentication/auth.route";
 
 const app: Application = express();
 
@@ -35,6 +36,10 @@ app.get('/', (req: Request, res: Response) => {
         }
     })
 })
+
+
+//? register, login, myself
+app.use('/api/auth', authRouter);
 
 
 
