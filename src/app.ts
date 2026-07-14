@@ -4,8 +4,19 @@ import status from "http-status";
 import notFound from "./middleware/notFound";
 import { globalErrorHandler } from "./middleware/globalErrorHandler";
 import { authRouter } from "./modules/Authentication/auth.route";
+import cors from "cors"
+import cookieParser from "cookie-parser";
 
 const app: Application = express();
+
+
+//? adding the necessary middle ware
+app.use(cors());
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({
+    extended : true
+}))
 
 
 
