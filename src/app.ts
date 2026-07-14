@@ -2,6 +2,7 @@ import type { Application, Request, Response } from "express";
 import express from "express"
 import status from "http-status";
 import notFound from "./middleware/notFound";
+import { globalErrorHandler } from "./middleware/globalErrorHandler";
 
 const app: Application = express();
 
@@ -41,5 +42,8 @@ app.get('/', (req: Request, res: Response) => {
 
 //? if no route mathces
 app.use(notFound);
+
+//? adding global error handler
+app.use(globalErrorHandler);
 
 export default app;
