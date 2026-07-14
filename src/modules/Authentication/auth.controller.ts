@@ -24,13 +24,16 @@ const loginUser = catchAsync(async(req : Request, res : Response, next : NextFun
 
     const payLoad = req.body;
 
-    const result = await authServices.loginUser(payLoad);
+    const {accessToken, refreshToken} = await authServices.loginUser(payLoad);
 
     return sendResponse(res, {
         success : true,
         statusCode : status.OK,
         message : "Login Successful",
-        data : result
+        data : {
+            accessToken,
+            refreshToken
+        }
     })
 
 })

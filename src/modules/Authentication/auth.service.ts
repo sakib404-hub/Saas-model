@@ -4,6 +4,8 @@ import { prisma } from "../../lib/prisma";
 import type { ILoginPayLoad, IRegisterPayLoad } from "./auth.interface";
 import bcrypt from "bcrypt"
 import validator from "validator"
+import { generateToken } from "../../utility/jwt";
+import type { SignOptions } from "jsonwebtoken";
 
 const registerUser = async (payLoad: IRegisterPayLoad) => {
 
@@ -61,6 +63,24 @@ const loginUser = async(payLoad : ILoginPayLoad) => {
     }
     if(user.status === UserStatus.SUSPENDED){
         throw new Error("Your Account Has been suspended for violating terms and condition.")
+    }
+
+    //? creating jwt payload
+    const jwtPayLoad = {
+        id : user.id,
+        name : user.name,
+        email : user.email,
+        role : user.role
+    }
+
+    //? generating the access token and the refresh token
+    const accessToken = generateToken(jwtPayLoad, config.jwt_access_secret, config.jwt_access_expires_in as SignOptions)
+
+    const refreshToken = generateToken(jwtPayLoad, config.jwt_refresh_secret, config.jwt_refresh_expires_in as SignOptions);
+
+    return {
+        accessToken,
+        refreshToken
     }
 }
 
