@@ -84,7 +84,24 @@ const loginUser = async(payLoad : ILoginPayLoad) => {
     }
 }
 
+const getProfile = async(id : string)=>{
+    const user = await prisma.user.findUnique({
+        where : {
+            id : id
+        },
+        omit : {
+            password : true
+        }
+    })
+    if(!user){
+        throw new Error("User do not Exist.");
+    }
+
+    return user;
+}
+
 export const authServices = {
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 }
