@@ -7,6 +7,7 @@ dotenv.config({
 
 
 export const config = {
-    port_number : process.env.PORT
+    port_number : process.env.PORT,
+    databse_url : process.env.DATABASE_URL
 }
 
