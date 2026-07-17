@@ -51,28 +51,6 @@ This repository is my journey of learning and implementing the core building blo
 
 ---
 
-# 📂 Project Structure
-
-```bash
-src
-│
-├── config
-├── lib
-├── middleware
-├── modules
-│   └── Authentication
-├── types
-├── utility
-│
-├── app.ts
-└── server.ts
-
-prisma
-└── schema.prisma
-```
-
----
-
 # ⚡ Authentication Flow
 
 ```text
